@@ -13,11 +13,12 @@
 									
 using namespace std;
 #define FILE_NAME  "teapot.3ds"	//注意用3dmax制作时必须有材质信息才行
-#define SECTION_NUM 10 //做的截面数/2
+//做的截面数/2
 #define RATIO 1.2 //最大范围内的比例
 CLoad3DS g_Load3ds;									
 t3DModel g_3DModel;
  Plane3DS section(SECTION_NUM);
+ int SECTION_NUM = 50;
  using namespace std;
 int main(int argc, char** argv)
 {

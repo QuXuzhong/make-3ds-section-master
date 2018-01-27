@@ -1,3 +1,17 @@
 ﻿  simulate.cpp
-  Read3ds_Win32Project1.vcxproj -> D:\学酥\冯科\make-3ds-section-master\Read3ds_Win32Project1\Debug\Read3ds_Win32Project1.exe
-  Read3ds_Win32Project1.vcxproj -> D:\学酥\冯科\make-3ds-section-master\Read3ds_Win32Project1\Debug\Read3ds_Win32Project1.pdb (Full PDB)
+  main.cpp
+d:\git\make-3ds-section-master\read3ds_win32project1\read3ds_win32project1\main.cpp(160): warning C4101: “cc”: 未引用的局部变量
+  getplane.cpp
+d:\git\make-3ds-section-master\read3ds_win32project1\read3ds_win32project1\getplane.cpp(45): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+d:\git\make-3ds-section-master\read3ds_win32project1\read3ds_win32project1\getplane.cpp(112): warning C4244: “return”: 从“double”转换到“int”，可能丢失数据
+d:\git\make-3ds-section-master\read3ds_win32project1\read3ds_win32project1\getplane.cpp(142): warning C4244: “=”: 从“float”转换到“int”，可能丢失数据
+d:\git\make-3ds-section-master\read3ds_win32project1\read3ds_win32project1\getplane.cpp(229): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+d:\git\make-3ds-section-master\read3ds_win32project1\read3ds_win32project1\getplane.cpp(230): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+d:\git\make-3ds-section-master\read3ds_win32project1\read3ds_win32project1\getplane.cpp(232): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+d:\git\make-3ds-section-master\read3ds_win32project1\read3ds_win32project1\getplane.cpp(233): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  basic.cpp
+  3ds.cpp
+  正在生成代码...
+d:\git\make-3ds-section-master\read3ds_win32project1\read3ds_win32project1\basic.cpp(29): warning C4715: “trans”: 不是所有的控件路径都返回值
+  Read3ds_Win32Project1.vcxproj -> D:\git\make-3ds-section-master\Read3ds_Win32Project1\Debug\Read3ds_Win32Project1.exe
+  Read3ds_Win32Project1.vcxproj -> D:\git\make-3ds-section-master\Read3ds_Win32Project1\Debug\Read3ds_Win32Project1.pdb (Full PDB)

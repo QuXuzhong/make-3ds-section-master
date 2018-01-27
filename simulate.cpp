@@ -2,8 +2,9 @@
 #include <math.h>
 #include "simulate.h"
 #include "getplane.h" 
-#define SECTION_NUM 10 //做的截面数/2
+  //做的截面数/2
 using namespace std;
+extern int SECTION_NUM;
 extern Plane3DS section;
 	int j = 1;
 void drawvexel(void)
