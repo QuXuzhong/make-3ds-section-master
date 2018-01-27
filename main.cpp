@@ -75,6 +75,16 @@ int main(int argc, char** argv)
 			<< setw(4) << right << int(pColor[1]) << ","
 			<< setw(4) << right << int(pColor[2]) << " }\n";	
 		//输出纹理的uv坐标
+		if (g_3DModel.pObject[i].bHasTexture)
+		{
+			for (int k = 0; k < g_3DModel.pObject[i].numTexVertex; k++)
+			{
+				CVector2 *pTexVerts = g_3DModel.pObject[i].pTexVerts;
+				mcfile << "纹理的第" << k << "个uv坐标" << pTexVerts->x << "," << pTexVerts->y << endl;
+			}
+		}
+		else
+			mcfile << "模型没有纹理映射" << endl;
 		//列出点的坐标及其索引
 		
 		for (int j = 0; j < g_3DModel.pObject[i].numOfVerts; j++)//一共有j个点，这j应该就是点的索引
