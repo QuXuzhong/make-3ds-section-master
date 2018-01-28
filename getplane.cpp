@@ -56,6 +56,9 @@ void Plane3DS::CalculateVoxelOfFace(CVector3 V1, CVector3 V2, CVector3 V3)//етаЉ
 		case 0:
 			break;
 		case 222:
+			linepoint(pt01, pt11, iii);
+			linepoint(pt11, pt21, iii);
+			linepoint(pt01, pt21, iii);
 			break;
 		case 211:
 			linepoint(pt21, pt22, iii);
