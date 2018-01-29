@@ -12,12 +12,12 @@
 #include "GL/glut.h"
 									
 using namespace std;
-#define FILE_NAME  "square_tietu.3ds"	//注意用3dmax制作时必须有材质信息才行
+#define FILE_NAME  "square_blue.3ds"	//注意用3dmax制作时必须有材质信息才行
 //做的截面数/2
 #define RATIO 1.2 //最大范围内的比例
 CLoad3DS g_Load3ds;									
 t3DModel g_3DModel;
-int SECTION_NUM = 50;
+int SECTION_NUM = 20;
 Plane3DS section(SECTION_NUM);
 using namespace std;
 int main(int argc, char** argv)
@@ -80,7 +80,7 @@ int main(int argc, char** argv)
 		{
 			mcfile << "纹理名称：" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].strName<<endl;
 			mcfile << "纹理文件：" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].strFile<< endl;
-			mcfile << "u偏移" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].uOffset <<"v偏移"<< g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].vOffset<< endl;
+			mcfile << "u偏移" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].uOffset <<"\tv偏移"<< g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].vOffset<< endl;
 			for (int k = 0; k < g_3DModel.pObject[i].numTexVertex; k++)
 			{
 				CVector2 *pTexVerts = g_3DModel.pObject[i].pTexVerts;

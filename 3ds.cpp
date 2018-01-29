@@ -9,6 +9,7 @@ CLoad3DS::CLoad3DS()
 	m_TempChunk = new tChunk;					// 初始化一个临时块并分配空间
 }
 
+
 //  打开一个3ds文件，读出其中的内容，并释放内存
 bool CLoad3DS::Import3DS(t3DModel *pModel, char *strFileName)
 {

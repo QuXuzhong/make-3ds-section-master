@@ -59,7 +59,7 @@ int glmain() {
 	//glutInitDisplayMode(GLUT_RGBA);
 	glutCreateWindow("simulate of openGL");
 	glColor3f(1.0, 1.0, 1.0);
-	gluOrtho2D(0, 64, 0, 64);
+	gluOrtho2D(0, 63, 0, 63);
 		//为当前窗口设置函数回调，用于画图
 	glutDisplayFunc(drawvexel);
 	glutSpecialFunc(special);

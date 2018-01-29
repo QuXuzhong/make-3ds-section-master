@@ -8,7 +8,17 @@ Plane3DS::Plane3DS(int numofplane)//²ÎÊıÎªĞèÒª×öµÄ½ØÃæ£¬£¨ÆäÊµÊÇ180¶ÈÄÚËù×öµÄ·Ö¸
 	_numofplane = numofplane;//°ë¸öÔ²ÖÜ×öµÄ·Ö¸îÃæ
 	pVexelOFplane = new list<CVector2_int> [ 2 * numofplane ];//½ØÃæµÄ¶¥µãÊı¾İ
 }
-
+//¶ÁÈ¡²ÄÖÊRGBÖµµÄº¯Êı
+char Plane3DS::RGB_get(t3DModel model)
+{
+	char output = { 0 };
+	for (int i = 0;i<model.numOfObjects;i++)
+	{
+		BYTE *pColor = model.pMaterials[model.pObject[i].materialID].color;
+		
+	}
+	return output;
+}
 void Plane3DS::ProcessVoxelDataModel(t3DModel Model)
 {
 	for (int i = 0; i < Model.numOfObjects; i++)//±éÀúËùÓĞ¶ÔÏó
@@ -97,7 +107,7 @@ void Plane3DS::CalculateVoxelOfFace(CVector3 V1, CVector3 V2, CVector3 V3)//ÕâĞ©
 		for (iter = pVexelOFplane[iii-_numofplane].begin(); iter != pVexelOFplane[iii-_numofplane].end(); iter++)
 		{
 			CVector2_int pt;
-			pt.x = 64-(*iter).x;
+			pt.x = 63-(*iter).x;
 			pt.y = (*iter).y;
 			pVexelOFplane[iii].push_back(pt);
 
@@ -112,7 +122,11 @@ void Plane3DS::CalculateVoxelOfFace(CVector3 V1, CVector3 V2, CVector3 V3)//ÕâĞ©
 
 int Plane3DS::round(float number)//ËÄÉáÎåÈëµÄº¯Êı
 {
-	return ( number > 0.0) ? floor(number + 0.5) : ceil(number - 0.5);
+	return ( number > 0) ? floor(number + 0.5): ceil(number - 0.5) ;
+}
+int Plane3DS::round2(float number)//ËÄÉáÎåÈëµÄº¯Êı
+{
+	return (number > 31.5) ? floor(number + 0.5) : ceil(number - 0.5);
 }
 
 
@@ -229,11 +243,11 @@ void Plane3DS::linepoint(CVector3 pt01, CVector3 pt11,int iii)//µÚiii¸ö½ØÃæ
 		pt0.x = -sqrt(pow(cv2.x, 2) + pow(cv2.z, 2));
 	pt0.y = cv2.y;
 
-	pt00.x = round(pt.x + 31.5);
-	pt00.y = round(pt.y + 31.5);
+	pt00.x = round2(pt.x+31.5);
+	pt00.y = round2(pt.y + 31.5);
 	//cout << "{" << pt00.x << "," << pt00.y << "}\n";
-	pt000.x = round(pt0.x + 31.5);
-	pt000.y = round(pt0.y + 31.5);
+	pt000.x = round2(pt0.x + 31.5);
+	pt000.y = round2(pt0.y + 31.5);
 	//cout << "{" << pt000.x << "," << pt000.y << "}\n";
 
 	CVector2_int ptu;
