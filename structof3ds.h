@@ -39,7 +39,11 @@ class CVector2_int
 public:
 	int x, y;
 };
-
+class CVector3_int
+{
+public:
+	int x, y, z;
+};
 //  面的结构定义
 struct tFace
 {

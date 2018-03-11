@@ -7,6 +7,7 @@ Plane3DS::Plane3DS(int numofplane)//²ÎÊıÎªĞèÒª×öµÄ½ØÃæ£¬£¨ÆäÊµÊÇ180¶ÈÄÚËù×öµÄ·Ö¸
 {
 	_numofplane = numofplane;//°ë¸öÔ²ÖÜ×öµÄ·Ö¸îÃæ
 	pVexelOFplane = new list<CVector2_int> [ 2 * numofplane ];//½ØÃæµÄ¶¥µãÊı¾İ
+	_3dVexel = new list<CVector3_int>[2 * numofplane];
 }
 //¶ÁÈ¡²ÄÖÊRGBÖµµÄº¯Êı
 char Plane3DS::RGB_get(t3DModel model)
@@ -107,7 +108,7 @@ void Plane3DS::CalculateVoxelOfFace(CVector3 V1, CVector3 V2, CVector3 V3)//ÕâĞ©
 		for (iter = pVexelOFplane[iii-_numofplane].begin(); iter != pVexelOFplane[iii-_numofplane].end(); iter++)
 		{
 			CVector2_int pt;
-			pt.x = 63-(*iter).x;
+			pt.x = 31-(*iter).x;//ÆÁµÄ¿í¶ÈÎª32
 			pt.y = (*iter).y;
 			pVexelOFplane[iii].push_back(pt);
 
@@ -221,9 +222,6 @@ int Plane3DS::PlaneandPoint(CVector3 V1, CVector3 V2, float K, CVector3 &pt1, CV
 
 
 }
-
-
-
 //½«Á½µãÖ®¼äµÄµã¶¼ÊäÈë½ølistÖĞ
 void Plane3DS::linepoint(CVector3 pt01, CVector3 pt11,int iii)//µÚiii¸ö½ØÃæ
 {
@@ -232,6 +230,76 @@ void Plane3DS::linepoint(CVector3 pt01, CVector3 pt11,int iii)//µÚiii¸ö½ØÃæ
 	cv2 = pt11;
 	CVector2 pt, pt0;//½ØÃæ×ø±ê
 	CVector2_int pt00, pt000;//±ä»»×ø±êÖ®ºóµÄ
+
+	//Ê×ÏÈ±£´æÈıÎ¬µãÕóĞÅÏ¢µ½_3dVexel
+	CVector3_int pt3d,cv1_int,cv2_int;
+	cv1_int = convert(cv1);
+	cv2_int = convert(cv2);
+	if ((max_float(abs(cv2_int.x - cv1_int.x), abs(cv2_int.y - cv1_int.y),abs(cv2_int.z-cv2_int.z))==abs(cv2_int.x - cv1_int.x)))//µãËØ»¯Ö±Ïß1
+	{
+		if ((cv2_int.x - cv1_int.x) == 0)
+		{
+			pt3d.x = (int)cv1_int.x;
+			pt3d.y = (int)cv1_int.y;
+			pt3d.z = (int)cv1_int.z;
+			//cout << pt3d.y << "\t";
+			_3dVexel[iii].push_back(pt3d);
+		}
+		else
+		{
+			for (int k = min(cv1_int.x, cv2_int.x); k != max(cv1_int.x, cv2_int.x); k++)
+			{
+				pt3d.x = k;
+				pt3d.y = round((cv2_int.y - cv1_int.y) / float((cv2_int.x - cv1_int.x))*(pt3d.x - cv1_int.x) + cv1_int.y);
+				pt3d.z = round((cv2_int.z - cv1_int.z) / float((cv2_int.x - cv1_int.x))*(pt3d.x - cv1_int.x) + cv1_int.z);
+				//cout << pt3d.y << "\t";
+				_3dVexel[iii].push_back(pt3d);
+			}
+		}
+	}
+	else if((max_float(abs(cv2_int.x - cv1_int.x), abs(cv2_int.y - cv1_int.y), abs(cv2_int.z - cv2_int.z)) == abs(cv2_int.y - cv1_int.y)))//µãËØ»¯Ö±Ïß2
+	{
+		if ((cv2_int.y - cv1_int.y) == 0)
+		{
+			pt3d.x = cv1_int.x;
+			pt3d.y = cv1_int.y;
+			pt3d.z = cv1_int.z;
+			_3dVexel[iii].push_back(pt3d);
+		}
+		else
+		{
+			for (int k = min(cv1_int.y, cv2_int.y); k != max(cv1_int.y, cv2_int.y); k++)
+			{
+				pt3d.y = k;
+				pt3d.x = round((cv2_int.x - cv1_int.x) / float((cv2_int.y - cv1_int.y))*(pt3d.y - cv1_int.y) + cv1_int.x);
+				pt3d.z = round((cv2_int.z - cv1_int.z) / float((cv2_int.y - cv1_int.y))*(pt3d.y - cv1_int.y) + cv1_int.z);
+				_3dVexel[iii].push_back(pt3d);
+			}
+		}
+	}
+	else
+	{
+		if ((cv2_int.z - cv1_int.z) == 0)
+		{
+			pt3d.x = cv1_int.x;
+			pt3d.y = cv1_int.y;
+			pt3d.z = cv1_int.z;
+			_3dVexel[iii].push_back(pt3d);
+		}
+		else
+		{
+			for (int k = min(cv1_int.z, cv2_int.z); k != max(cv1_int.z, cv2_int.z); k++)
+			{
+				pt3d.z = k;
+				pt3d.x = round((cv2_int.x - cv1_int.x) / float((cv2_int.z - cv1_int.z))*(pt3d.z - cv1_int.z) + cv1_int.x);
+				pt3d.y = round((cv2_int.y - cv1_int.y) / float((cv2_int.z - cv1_int.z))*(pt3d.z - cv1_int.z) + cv1_int.y);
+				_3dVexel[iii].push_back(pt3d);
+			}
+		}
+	}
+
+
+	//±£´æ2dµãĞÅÏ¢
 	if ((cv1.x >= 0 && cv1.z == 0) || (cv1.z>0))
 		pt.x = sqrt(pow(cv1.x, 2) + pow(cv1.z, 2));
 	else
@@ -243,11 +311,11 @@ void Plane3DS::linepoint(CVector3 pt01, CVector3 pt11,int iii)//µÚiii¸ö½ØÃæ
 		pt0.x = -sqrt(pow(cv2.x, 2) + pow(cv2.z, 2));
 	pt0.y = cv2.y;
 
-	pt00.x = round2(pt.x+31.5);
-	pt00.y = round2(pt.y + 31.5);
+	pt00.x = round2(pt.x+15.5);
+	pt00.y = round2(pt.y + 15.5);
 	//cout << "{" << pt00.x << "," << pt00.y << "}\n";
-	pt000.x = round2(pt0.x + 31.5);
-	pt000.y = round2(pt0.y + 31.5);
+	pt000.x = round2(pt0.x + 15.5);
+	pt000.y = round2(pt0.y + 15.5);
 	//cout << "{" << pt000.x << "," << pt000.y << "}\n";
 
 	CVector2_int ptu;
@@ -271,8 +339,6 @@ void Plane3DS::linepoint(CVector3 pt01, CVector3 pt11,int iii)//µÚiii¸ö½ØÃæ
 			}
 		}
 	}
-
-
 	else//µãËØ»¯Ö±Ïß2
 	{
 		if ((pt000.y - pt00.y) == 0)
@@ -291,14 +357,22 @@ void Plane3DS::linepoint(CVector3 pt01, CVector3 pt11,int iii)//µÚiii¸ö½ØÃæ
 			}
 		}
 	}
-
-
 }
-
-
-
-
-
+int Plane3DS::max_float(float a,float b,float c)
+{
+	float t;
+	t = (int)max(a, b);
+	t = (int)max(t, c);
+	return t;
+}
+CVector3_int Plane3DS::convert(CVector3 cv)
+{
+	CVector3_int cv_int;
+	cv_int.x = int(cv.x);
+	cv_int.y = int(cv.y);
+	cv_int.z = int(cv.z);
+	return cv_int;
+}
 Plane3DS::~Plane3DS()
 {
 	for (int i = 0; i < 2 * _numofplane; i++)

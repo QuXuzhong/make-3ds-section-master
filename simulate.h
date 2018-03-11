@@ -5,5 +5,7 @@
 #include <GL/glut.h>
 #include <math.h>
 void drawvexel(void);
+void draw3D(void);
 int glmain();
+int glmain3d();
 #endif

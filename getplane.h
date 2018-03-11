@@ -10,7 +10,7 @@
 #include <fstream>
 #include <iomanip>
 #include <list>
-
+using namespace std;
 class Plane3DS
 {
 public:
@@ -21,8 +21,7 @@ public:
 	void ProcessVoxelDataModel(t3DModel Model);//用“面方法”来得到截面的list
 	char RGB_get(t3DModel model);
 	int _numofplane;
-
-
+	list <CVector3_int> *_3dVexel;
 
 private:
 
@@ -37,6 +36,8 @@ private:
 	int round(float number);
 	int round2(float number);
 	void linepoint(CVector3 pt01, CVector3 pt11,int iii);
+	int max_float(float a, float b, float c);
+	CVector3_int convert(CVector3 cv);
 };
 
 

@@ -1,4 +1,3 @@
-
 #include "structof3ds.h"										
 #include "3ds.h"	
 #include <iostream>
@@ -9,17 +8,17 @@
 #include "simulate.h"
 #include "getplane.h"
 #include "basic.h"
-#include "GL/glut.h"
-									
+#include "GL/glut.h"									
 using namespace std;
-#define FILE_NAME  "square_blue.3ds"	//注意用3dmax制作时必须有材质信息才行
+#define FILE_NAME  "4lengzhui_30.3ds"	//注意用3dmax制作时必须有材质信息才行
 //做的截面数/2
 #define RATIO 1.2 //最大范围内的比例
 CLoad3DS g_Load3ds;									
 t3DModel g_3DModel;
-int SECTION_NUM = 20;
+int SECTION_NUM = 100;
 Plane3DS section(SECTION_NUM);
 using namespace std;
+int Res = 32;//定义屏的分辨率
 int main(int argc, char** argv)
 {
 
@@ -45,7 +44,7 @@ int main(int argc, char** argv)
 				Max.y = h;
 		}
 	}
-	KP = min(25 / Max.x, 25 / Max.y);
+	KP = min(12 / Max.x, 12 / Max.y);
 	cout << "KP:\t" << KP << endl;
 	//*********************************************************************************************************************************************************************************************************
 	
@@ -71,45 +70,45 @@ int main(int argc, char** argv)
 		std::cout << "\t第" << i << "个对象中的面数量" << g_3DModel.pObject[i].numOfFaces << std::endl;
 		std::cout << "\t第" << i << "个对象中的纹理ID" << g_3DModel.pObject[i].materialID << std::endl;
 		std::cout << "\t第" << i << "个对象的纹理映射" << g_3DModel.pMaterials[i].strFile << std::endl;
-		mcfile << "第" << i << "个对象的颜色(RGB)：" << "\t{"
-			<< setw(4) << right << int(pColor[0]) << ","
-			<< setw(4) << right << int(pColor[1]) << ","
-			<< setw(4) << right << int(pColor[2]) << " }\n";	
-		//输出纹理的uv坐标
-		if (g_3DModel.pObject[i].bHasTexture)
-		{
-			mcfile << "纹理名称：" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].strName<<endl;
-			mcfile << "纹理文件：" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].strFile<< endl;
-			mcfile << "u偏移" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].uOffset <<"\tv偏移"<< g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].vOffset<< endl;
-			for (int k = 0; k < g_3DModel.pObject[i].numTexVertex; k++)
-			{
-				CVector2 *pTexVerts = g_3DModel.pObject[i].pTexVerts;
-				mcfile << "纹理的第" << k << "个uv坐标:" << pTexVerts->x << "," << pTexVerts->y << endl;
-				pTexVerts++;
-			}
-		}
-		else
-			mcfile << "模型没有纹理映射" << endl;
-		//列出点的坐标及其索引
-		
-		for (int j = 0; j < g_3DModel.pObject[i].numOfVerts; j++)//一共有j个点，这j应该就是点的索引
-		{
-			mcfile << "\tpoint index:" << j << "\t{"
-				<< setw(10) << right << (pVerts + j)->x << ","
-				<< setw(10) << right << (*(pVerts + j)).y << ","
-				<< setw(10) << right << (pVerts + j)->z << " }\n";
-		}
-		//给出面的索引值
-		for (int j = 0; j < g_3DModel.pObject[i].numOfFaces; j++)//一共有j个点，这j应该就是点的索引
-		{
-			mcfile << "\t面" << j << "\tindex: {"
-				<< setw(10) << right << (vertIndex + j)->vertIndex[0] << ","//A点的索引值                                                       
-				<< setw(10) << right << (vertIndex + j)->vertIndex[1] << ","//B点索引值
-				<< setw(10) << right << (vertIndex + j)->vertIndex[2] << " }\n";//C点索引值
+		//mcfile << "第" << i << "个对象的颜色(RGB)：" << "\t{"
+		//	<< setw(4) << right << int(pColor[0]) << ","
+		//	<< setw(4) << right << int(pColor[1]) << ","
+		//	<< setw(4) << right << int(pColor[2]) << " }\n";	
+		////输出纹理的uv坐标
+		//if (g_3DModel.pObject[i].bHasTexture)
+		//{
+		//	mcfile << "纹理名称：" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].strName<<endl;
+		//	mcfile << "纹理文件：" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].strFile<< endl;
+		//	mcfile << "u偏移" << g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].uOffset <<"\tv偏移"<< g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].vOffset<< endl;
+		//	for (int k = 0; k < g_3DModel.pObject[i].numTexVertex; k++)
+		//	{
+		//		CVector2 *pTexVerts = g_3DModel.pObject[i].pTexVerts;
+		//		mcfile << "纹理的第" << k << "个uv坐标:" << pTexVerts->x << "," << pTexVerts->y << endl;
+		//		pTexVerts++;
+		//	}
+		//}
+		//else
+		//	mcfile << "模型没有纹理映射" << endl;
+		////列出点的坐标及其索引
+		//
+	//	for (int j = 0; j < g_3DModel.pObject[i].numOfVerts; j++)//一共有j个点，这j应该就是点的索引
+	//	{
+	//		mcfile << "\tpoint index:" << j << "\t{"
+	//			<< setw(10) << right << (pVerts + j)->x << ","
+	//			<< setw(10) << right << (*(pVerts + j)).y << ","
+	//			<< setw(10) << right << (pVerts + j)->z << " }\n";
+	//	}
+	//	//给出面的索引值
+	//	for (int j = 0; j < g_3DModel.pObject[i].numOfFaces; j++)//一共有j个点，这j应该就是点的索引
+	//	{
+	//		mcfile << "\t面" << j << "\tindex: {"
+	//			<< setw(10) << right << (vertIndex + j)->vertIndex[0] << ","//A点的索引值                                                       
+	//			<< setw(10) << right << (vertIndex + j)->vertIndex[1] << ","//B点索引值
+	//			<< setw(10) << right << (vertIndex + j)->vertIndex[2] << " }\n";//C点索引值
 
-		}
+	//	}
 
-		mcfile << endl;
+	//	mcfile << endl;
 	}
 	cout << "mingci.txt输出完成" << endl;
 	mcfile.close(); //关闭
@@ -118,19 +117,19 @@ int main(int argc, char** argv)
 	//Plane3DS section(SECTION_NUM);//设置截面数为100
 	section.ProcessVoxelDataModel(g_3DModel);//处理函数
 	ofstream sectionfile; //创建截面存储文件文件 
-	sectionfile.open("D:\\data\\section.txt"); //文件地址
-	for (int i = 0; i < 2*SECTION_NUM; i++)//遍历每个list
-	{
-		list<CVector2_int>::iterator iter;
-		sectionfile << "section index:" << i << "\n" ;
-		for (iter = section.pVexelOFplane[i].begin(); iter != section.pVexelOFplane[i].end() ; iter++)
-		{
-			sectionfile << "\t{" << setw(10) << right << (*iter).x << "," << setw(10) << right << (*iter).y << "}\n";
-		}
-		sectionfile <<  "\n\n" ;
-	}
-	cout << "section.txt输出完成" << endl;
-	sectionfile.close();
+	//sectionfile.open("D:\\data\\section.txt"); //文件地址
+	//for (int i = 0; i < 2*SECTION_NUM; i++)//遍历每个list
+	//{
+	//	list<CVector2_int>::iterator iter;
+	//	sectionfile << "section index:" << i << "\n" ;
+	//	for (iter = section.pVexelOFplane[i].begin(); iter != section.pVexelOFplane[i].end() ; iter++)
+	//	{
+	//		sectionfile << "\t{" << setw(10) << right << (*iter).x << "," << setw(10) << right << (*iter).y << "}\n";
+	//	}
+	//	sectionfile <<  "\n\n" ;
+	//}
+	//cout << "section.txt输出完成" << endl;
+	//sectionfile.close();
 	//**********************************************************************************************************************************************************************************************************
 	
 	//转化为点阵数据存储在sd卡中
@@ -139,17 +138,17 @@ int main(int argc, char** argv)
 	sdfile.open("D:\\data\\sd.txt"); //文件地址
 	for (int i = 0; i < 2 * SECTION_NUM; i++)//遍历每个list
 	{
-		char save[64][64] = { 0x0 };
+		char save[32][32] = { 0x0 };
 		list<CVector2_int>::iterator iter;
 		//sdfile << "section index:" << i << "\n";
 		for (iter = section.pVexelOFplane[i].begin(); iter != section.pVexelOFplane[i].end(); iter++)
 		{
-			save[(*iter).y][(*iter).x] = 0x7;
+			save[(*iter).y][(*iter).x] = 0x1;
 			//sdfile << "\t{" << setw(10) << right << (*iter).x << "," << setw(10) << right << (*iter).y << "}\n";
 		}
-		for (int j = 0; j < 64; j++)
+		for (int j = (Res-1); j >=0; j--)
 		{
-			for (int k = 0; k < 64; k++)
+			for (int k = 0; k < Res; k++)
 			{
 				sdfile << save[j][k];
 			}
@@ -159,12 +158,19 @@ int main(int argc, char** argv)
 	}
 	cout << "sd.txt输出完成" << endl;
 	sdfile.close();
-	glutInit(&argc, argv);
-	glmain();
-	//********************************************
+	//初始化GLUT library
+	cout << "按0选择切面模式，按1选择3d点阵" << endl;
 	char cc;
+	cc = getchar();
+	glutInit(&argc, argv);
+	if(cc=='0')
+	glmain();
+	else
+	glmain3d();
+	//********************************************
 	std::cout << "按下任意键退出：";
 	_getch();
 	return 0;
 	//********************************************
 }
+
