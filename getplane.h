@@ -36,7 +36,7 @@ private:
 	int round(float number);
 	int round2(float number);
 	void linepoint(CVector3 pt01, CVector3 pt11,int iii);
-	int max_float(float a, float b, float c);
+	int max_3(float a, float b, float c);
 	CVector3_int convert(CVector3 cv);
 };
 

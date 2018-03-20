@@ -10,7 +10,7 @@
 #include "basic.h"
 #include "GL/glut.h"									
 using namespace std;
-#define FILE_NAME  "4lengzhui_30.3ds"	//注意用3dmax制作时必须有材质信息才行
+#define FILE_NAME  "square_blue.3ds"	//注意用3dmax制作时必须有材质信息才行
 //做的截面数/2
 #define RATIO 1.2 //最大范围内的比例
 CLoad3DS g_Load3ds;									
@@ -19,6 +19,7 @@ int SECTION_NUM = 100;
 Plane3DS section(SECTION_NUM);
 using namespace std;
 int Res = 32;//定义屏的分辨率
+char save[32][32] = { 0x0 };//对应分辨率用于保存数据的数组
 int main(int argc, char** argv)
 {
 
@@ -138,7 +139,7 @@ int main(int argc, char** argv)
 	sdfile.open("D:\\data\\sd.txt"); //文件地址
 	for (int i = 0; i < 2 * SECTION_NUM; i++)//遍历每个list
 	{
-		char save[32][32] = { 0x0 };
+
 		list<CVector2_int>::iterator iter;
 		//sdfile << "section index:" << i << "\n";
 		for (iter = section.pVexelOFplane[i].begin(); iter != section.pVexelOFplane[i].end(); iter++)

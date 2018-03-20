@@ -25,12 +25,9 @@ void drawvexel(void)
 					   //GL.gl Point Size(1.5f);          //可以 更改体素大小        
 		// 遍历角平面中所有体素 
 
-		float sita = PI / float(section._numofplane)*j;
-		float K = tan(sita);
 		list<CVector2_int>::iterator i;
 		for (i = section.pVexelOFplane[j].begin(); i != section.pVexelOFplane[j].end(); i++)
 		{
-			int z = int(K*((*i).x));
 			glVertex2f((*i).x, (*i).y);
 		}
 	glEnd();                // 绘制结束 
@@ -48,7 +45,7 @@ void draw3D(void)
 	//gluLookAt(0,0,-32, 0, 0, 0, 0.2, 0.8, 0);
 	glBegin(GL_POINTS);//点阵模式
 	list<CVector3_int>::iterator i;
-	for(int j=0;j<section._numofplane;j++)
+	for(int j=0;j<=section._numofplane;j++)
 	for (i =section._3dVexel[j].begin(); i != section._3dVexel[j].end(); i++)
 	{
 		glVertex3f((*i).x, (*i).y,(*i).z);
