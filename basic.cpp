@@ -13,7 +13,7 @@ bool trans(t3DModel &demo_Model, float KP , float RATIO)//根据屏幕大小转化的函数
 	//(*demo_Model) = Model;
 	for (int i = 0; i < demo_Model.numOfObjects; i++)//遍历所有对象
 	{
-		if (demo_Model.pObject.size() <= 0)
+		if (demo_Model.pObject.size() <= 0)//判断3ds文件有没有对象
 		{
 			return false;
 		}

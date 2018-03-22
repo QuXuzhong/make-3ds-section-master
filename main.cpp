@@ -10,16 +10,16 @@
 #include "basic.h"
 #include "GL/glut.h"									
 using namespace std;
-#define FILE_NAME  "square_blue.3ds"	//注意用3dmax制作时必须有材质信息才行
+#define FILE_NAME  "plane.3ds"	//注意用3dmax制作时必须有材质信息才行
 //做的截面数/2
-#define RATIO 1.2 //最大范围内的比例
+#define RATIO 1.1 //最大范围内的比例，变化为x*RATIO*KP
 CLoad3DS g_Load3ds;									
 t3DModel g_3DModel;
 int SECTION_NUM = 100;
 Plane3DS section(SECTION_NUM);
 using namespace std;
 int Res = 32;//定义屏的分辨率
-char save[32][32] = { 0x0 };//对应分辨率用于保存数据的数组
+char save[32][32] = { 0x00 };//对应分辨率用于保存数据的数组
 int main(int argc, char** argv)
 {
 
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 				Max.y = h;
 		}
 	}
-	KP = min(12 / Max.x, 12 / Max.y);
+	KP = min(16.0 / Max.x, 16.0 / Max.y);
 	cout << "KP:\t" << KP << endl;
 	//*********************************************************************************************************************************************************************************************************
 	
@@ -69,8 +69,8 @@ int main(int argc, char** argv)
 		BYTE *pColor = g_3DModel.pMaterials[g_3DModel.pObject[i].materialID].color;//g_3DModel.pObject[i].materialID我的理解是一个对象只有一种rgb，其他的需要从贴图中提取颜色(更多的颜色可能是要从贴图中用opencv和纹理坐标求得)
 		std::cout << "\t第" << i << "个对象中定点数量" << g_3DModel.pObject[i].numOfVerts << std::endl;
 		std::cout << "\t第" << i << "个对象中的面数量" << g_3DModel.pObject[i].numOfFaces << std::endl;
-		std::cout << "\t第" << i << "个对象中的纹理ID" << g_3DModel.pObject[i].materialID << std::endl;
-		std::cout << "\t第" << i << "个对象的纹理映射" << g_3DModel.pMaterials[i].strFile << std::endl;
+		//std::cout << "\t第" << i << "个对象中的纹理ID" << g_3DModel.pObject[i].materialID << std::endl;
+		//std::cout << "\t第" << i << "个对象的纹理映射" << g_3DModel.pMaterials[i].strFile << std::endl;
 		//mcfile << "第" << i << "个对象的颜色(RGB)：" << "\t{"
 		//	<< setw(4) << right << int(pColor[0]) << ","
 		//	<< setw(4) << right << int(pColor[1]) << ","
@@ -118,19 +118,19 @@ int main(int argc, char** argv)
 	//Plane3DS section(SECTION_NUM);//设置截面数为100
 	section.ProcessVoxelDataModel(g_3DModel);//处理函数
 	ofstream sectionfile; //创建截面存储文件文件 
-	//sectionfile.open("D:\\data\\section.txt"); //文件地址
-	//for (int i = 0; i < 2*SECTION_NUM; i++)//遍历每个list
-	//{
-	//	list<CVector2_int>::iterator iter;
-	//	sectionfile << "section index:" << i << "\n" ;
-	//	for (iter = section.pVexelOFplane[i].begin(); iter != section.pVexelOFplane[i].end() ; iter++)
-	//	{
-	//		sectionfile << "\t{" << setw(10) << right << (*iter).x << "," << setw(10) << right << (*iter).y << "}\n";
-	//	}
-	//	sectionfile <<  "\n\n" ;
-	//}
-	//cout << "section.txt输出完成" << endl;
-	//sectionfile.close();
+	sectionfile.open("d:\\data\\section.txt"); //文件地址
+	for (int i = 0; i < 2*SECTION_NUM; i++)//遍历每个list
+	{
+		list<CVector2_int>::iterator iter;
+		sectionfile << "section index:" << i << "\n" ;
+		for (iter = section.pVexelOFplane[i].begin(); iter != section.pVexelOFplane[i].end() ; iter++)
+		{
+			sectionfile << "\t{" << setw(10) << right << (*iter).x << "," << setw(10) << right << (*iter).y << "}\n";
+		}
+		sectionfile <<  "\n\n" ;
+	}
+	cout << "section.txt输出完成" << endl;
+	sectionfile.close();
 	//**********************************************************************************************************************************************************************************************************
 	
 	//转化为点阵数据存储在sd卡中
@@ -139,20 +139,27 @@ int main(int argc, char** argv)
 	sdfile.open("D:\\data\\sd.txt"); //文件地址
 	for (int i = 0; i < 2 * SECTION_NUM; i++)//遍历每个list
 	{
-
+		for (int j = 0; j < 32; j++)
+		{
+			for (int k = 0; k < 32; k++)
+			{
+				save[j][k] = 0;
+			}
+		}
 		list<CVector2_int>::iterator iter;
 		//sdfile << "section index:" << i << "\n";
 		for (iter = section.pVexelOFplane[i].begin(); iter != section.pVexelOFplane[i].end(); iter++)
 		{
-			save[(*iter).y][(*iter).x] = 0x1;
+			save[(*iter).y][(*iter).x] = 0x01;
 			//sdfile << "\t{" << setw(10) << right << (*iter).x << "," << setw(10) << right << (*iter).y << "}\n";
 		}
-		for (int j = (Res-1); j >=0; j--)
+		for (int j =0; j <Res;j++)
 		{
 			for (int k = 0; k < Res; k++)
 			{
 				sdfile << save[j][k];
 			}
+			
 		}
 
 		//sdfile << save[0][0] ;

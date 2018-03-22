@@ -87,12 +87,12 @@ void special(int key, int x, int y)//按方向下键切换到下一平面
 	{
 	case GLUT_KEY_DOWN:
 		
-		if (j >= 2 * SECTION_NUM)
+		if (j >= (2 * SECTION_NUM-1))//循环完所有的面后就从头开始
 			j = 0;
 		else
 			j++;
 		break;
-	case GLUT_KEY_UP:			
+	case GLUT_KEY_UP://按方向键上切换到上一平面
 		if (j <= 0)
 				j = 0;
 		else
@@ -120,7 +120,7 @@ void ChangeSize(GLsizei w, GLsizei h)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity;
 }
-
+//使用opengl绘制3d模型的函数
 int glmain3d() {
 	glutInitDisplayMode(GLUT_RGBA);
 	glutCreateWindow("simulate of openGL");
@@ -131,6 +131,7 @@ int glmain3d() {
 	glutMainLoop();
 	return 0;
 }
+//使用opengl绘制各个切面的函数
 int glmain() {
 	//对窗口的大小进行初始化00
 	glutInitWindowSize(800,800);

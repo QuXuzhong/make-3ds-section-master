@@ -31,11 +31,12 @@ private:
 		float k;
 		float b;
 	};//直线
-	void CalculateVoxelOfFace(CVector3 V1, CVector3 V2, CVector3 V3);//“面方法”内核函数
+	void CalculateVoxelOfFace(CVector3 V1, CVector3 V2, CVector3 V3);//“面方法”内核函数，根据线和面的相交情况进行点素化
 	int PlaneandPoint(CVector3 V1, CVector3 V2, float K, CVector3 &pt1, CVector3 &pt2);//判断出线和面的交点
+	void Symmetrical_trans();//做对称变换的函数
 	int round(float number);
 	int round2(float number);
-	void linepoint(CVector3 pt01, CVector3 pt11,int iii);
+	void linepoint(CVector3 pt01, CVector3 pt11,int iii);//对交线的点素化
 	int max_3(float a, float b, float c);
 	CVector3_int convert(CVector3 cv);
 };

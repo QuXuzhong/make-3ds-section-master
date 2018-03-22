@@ -41,7 +41,9 @@ void Plane3DS::ProcessVoxelDataModel(t3DModel Model)
 			CalculateVoxelOfFace(pObject.pVerts[index[0]], pObject.pVerts[index[1]], pObject.pVerts[index[2]]);
 			delete[]index;
 		}
+		
 	}
+	Symmetrical_trans();//对后半部分做对称
 }
 
 void Plane3DS::CalculateVoxelOfFace(CVector3 V1, CVector3 V2, CVector3 V3)//这些点的坐标应该是左手坐标系，先按照左手坐标系处理，最后做一个转化
@@ -103,6 +105,11 @@ void Plane3DS::CalculateVoxelOfFace(CVector3 V1, CVector3 V2, CVector3 V3)//这些
 	//*******************************************************************************************************************************************************
 	//*******************************************************************************************************************************************************
 
+
+}
+
+void Plane3DS::Symmetrical_trans()
+{
 	for (int iii = _numofplane; iii < 2 * _numofplane; iii++)//剩下的部分做对称
 	{
 		list<CVector2_int>::iterator iter;
@@ -115,12 +122,7 @@ void Plane3DS::CalculateVoxelOfFace(CVector3 V1, CVector3 V2, CVector3 V3)//这些
 
 		}
 	}
-
-
-
 }
-
-
 
 int Plane3DS::round(float number)//四舍五入的函数
 {
